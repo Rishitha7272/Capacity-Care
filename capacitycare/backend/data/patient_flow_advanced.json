@@ -1,0 +1,47 @@
+{
+  "heatmap": [
+    { "time": "08:00", "dept": "Emergency", "value": 85 },
+    { "time": "08:00", "dept": "OPD", "value": 150 },
+    { "time": "08:00", "dept": "Cardiology", "value": 40 },
+    { "time": "08:00", "dept": "Orthopedics", "value": 35 },
+    { "time": "12:00", "dept": "Emergency", "value": 95 },
+    { "time": "12:00", "dept": "OPD", "value": 180 },
+    { "time": "12:00", "dept": "Cardiology", "value": 45 },
+    { "time": "12:00", "dept": "Orthopedics", "value": 40 },
+    { "time": "16:00", "dept": "Emergency", "value": 160 },
+    { "time": "16:00", "dept": "OPD", "value": 140 },
+    { "time": "16:00", "dept": "Cardiology", "value": 30 },
+    { "time": "16:00", "dept": "Orthopedics", "value": 25 },
+    { "time": "20:00", "dept": "Emergency", "value": 220 },
+    { "time": "20:00", "dept": "OPD", "value": 40 },
+    { "time": "20:00", "dept": "Cardiology", "value": 15 },
+    { "time": "20:00", "dept": "Orthopedics", "value": 10 },
+    { "time": "24:00", "dept": "Emergency", "value": 150 },
+    { "time": "24:00", "dept": "OPD", "value": 10 },
+    { "time": "24:00", "dept": "Cardiology", "value": 10 },
+    { "time": "24:00", "dept": "Orthopedics", "value": 5 }
+  ],
+  "sankey": {
+    "nodes": [
+      { "name": "Emergency" },
+      { "name": "OPD" },
+      { "name": "ICU" },
+      { "name": "General Ward" },
+      { "name": "Surgery" },
+      { "name": "Discharge" }
+    ],
+    "links": [
+      { "source": 0, "target": 2, "value": 120 }, 
+      { "source": 0, "target": 3, "value": 150 }, 
+      { "source": 0, "target": 4, "value": 80 }, 
+      { "source": 1, "target": 3, "value": 200 }, 
+      { "source": 1, "target": 4, "value": 50 }, 
+      { "source": 1, "target": 5, "value": 300 }, 
+      { "source": 2, "target": 3, "value": 90 }, 
+      { "source": 2, "target": 5, "value": 30 }, 
+      { "source": 3, "target": 5, "value": 320 }, 
+      { "source": 4, "target": 2, "value": 40 },  
+      { "source": 4, "target": 3, "value": 90 }   
+    ]
+  }
+}

@@ -252,3 +252,192 @@
         grid-column: span 1;
     }
 }
+
+/* ─── Insights Section Header ──────────────────────────────────────── */
+.insights-section-header {
+    margin: 3rem 0 1.5rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.insights-section-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: linear-gradient(135deg, #a4c9b0, #eaf3ee);
+    color: #1a3a2a;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 0.3rem 0.85rem;
+    border-radius: 20px;
+    width: fit-content;
+}
+
+.insights-section-title {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #1a221f;
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+.insights-section-sub {
+    font-size: 0.95rem;
+    color: #64748b;
+    margin: 0;
+    max-width: 600px;
+}
+
+/* ─── Insight Graph Card ───────────────────────────────────────────── */
+.insight-graph-card {
+    border: 1px solid #e8f0ec;
+    background: linear-gradient(160deg, #ffffff 80%, #f0f7f3 100%);
+    transition: box-shadow 0.3s ease;
+}
+
+.insight-graph-card:hover {
+    box-shadow: 0 16px 48px -12px rgba(100, 170, 130, 0.18);
+}
+
+/* ─── Zoom Controls ────────────────────────────────────────────────── */
+.insight-zoom-controls {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: nowrap;
+    align-items: center;
+    overflow-x: auto;
+}
+
+.zoom-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.38rem 0.85rem;
+    border-radius: 20px;
+    border: 1.5px solid #c2dbca;
+    background: #ffffff;
+    color: #2d5a40;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    white-space: nowrap;
+}
+
+.zoom-btn:hover {
+    background: #a4c9b0;
+    border-color: #8fb89f;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(100, 170, 130, 0.25);
+    transform: translateY(-1px);
+}
+
+.zoom-btn-reset {
+    border-color: #e2e8f0;
+    color: #64748b;
+}
+
+.zoom-btn-reset:hover {
+    background: #f1f5f9;
+    border-color: #cdd5df;
+    color: #334155;
+}
+
+/* ─── Drag-to-zoom hint ────────────────────────────────────────────── */
+.zoom-drag-hint {
+    font-size: 0.78rem;
+    color: #94a3b8;
+    margin: -0.5rem 0 0.75rem;
+    font-style: italic;
+}
+
+/* ─── Scatter Legend ───────────────────────────────────────────────── */
+.scatter-legend-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    margin-top: 1rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid #f1f5f9;
+}
+
+.scatter-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.78rem;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.scatter-legend-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+/* ─── Insight Panel ────────────────────────────────────────────────── */
+.insight-panel {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+    padding: 1rem 1.25rem;
+    background: linear-gradient(135deg, #eaf3ee 0%, #f8ffe8 100%);
+    border-left: 4px solid #8fb89f;
+    border-radius: 12px;
+    opacity: 0.7;
+    transition: all 0.4s ease;
+    min-height: 56px;
+}
+
+.insight-panel-active {
+    opacity: 1;
+    background: linear-gradient(135deg, #d4eddc 0%, #eaf9ee 100%);
+    border-left-color: #4caf79;
+    box-shadow: 0 4px 16px rgba(100, 170, 130, 0.15);
+}
+
+.insight-panel-icon {
+    color: #4caf79;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.insight-panel-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #2d5a40;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.3rem;
+}
+
+.insight-panel-text {
+    font-size: 0.9rem;
+    color: #3f554a;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+.insight-panel-example {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: #1e4d30;
+    background: rgba(255,255,255,0.6);
+    border-radius: 8px;
+    padding: 0.5rem 0.75rem;
+    line-height: 1.5;
+    font-style: italic;
+}
+
+/* ─── Insights Grid ────────────────────────────────────────────────── */
+.insights-grid {
+    margin-top: 0;
+}
+

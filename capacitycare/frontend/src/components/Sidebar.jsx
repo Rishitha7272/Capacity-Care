@@ -16,49 +16,29 @@ export default function Sidebar({ hospitalName, onLogout }) {
 
     const searchRegistry = [
         // Dashboard
-        { label: 'Admission vs Discharge Flow', path: '/dashboard', hash: '#admission-discharge', category: 'Dashboard' },
-        { label: 'Department Load Monitor', path: '/dashboard', hash: '#dept-load', category: 'Dashboard' },
-        { label: 'Top Contributors (Cost/LOS)', path: '/dashboard', hash: '#top-contributors', category: 'Dashboard' },
-        { label: 'Age Demographics', path: '/dashboard', hash: '#age-demographics', category: 'Dashboard' },
-        { label: 'Weekly Bed Occupancy Heatmap', path: '/dashboard', hash: '#bed-heatmap', category: 'Dashboard' },
-        { label: 'Cost vs Efficiency Analysis', path: '/dashboard', hash: '#cost-efficiency', category: 'Dashboard' },
+        { label: 'Patient Throughput', path: '/dashboard', hash: '#admission-discharge', category: 'Dashboard' },
+        { label: 'Revenue Contribution', path: '/dashboard', hash: '#revenue-contribution', category: 'Dashboard' },
+        { label: 'Department Load Balance', path: '/dashboard', hash: '#dept-load', category: 'Dashboard' },
+        { label: 'Operational Earning Efficiency', path: '/dashboard', hash: '#earning-efficiency', category: 'Dashboard' },
         
         // Cost Analysis
-        { label: 'Cost Contribution Matrix', path: '/cost-analysis', hash: '#cost-matrix', category: 'Cost Analysis' },
-        { label: 'Department Expenditure Drilldown', path: '/cost-analysis', hash: '#dept-expenditure', category: 'Cost Analysis' },
-        { label: 'Condition Frequency vs. Cost', path: '/cost-analysis', hash: '#freq-cost', category: 'Cost Analysis' },
-        { label: 'Treatment Cost Trends', path: '/cost-analysis', hash: '#cost-trend', category: 'Cost Analysis' },
-        { label: 'Seasonal Cost Spikes', path: '/cost-analysis', hash: '#seasonal-cost', category: 'Cost Analysis' },
-        { label: 'Dept Inefficiency Score', path: '/cost-analysis', hash: '#efficiency-score', category: 'Cost Analysis' },
-        { label: 'Procedure Anomalies (Hidden Costs)', path: '/cost-analysis', hash: '#unnecessary-cost', category: 'Cost Analysis' },
+        { label: 'Treatment Cost Matrix', path: '/cost-analysis', hash: '#cost-matrix', category: 'Cost Analysis' },
+        { label: 'Expenditure Drilldown', path: '/cost-analysis', hash: '#dept-expenditure', category: 'Cost Analysis' },
+        { label: 'Condition Cost Analysis', path: '/cost-analysis', hash: '#freq-cost', category: 'Cost Analysis' },
         
         // Patient Flow
-        { label: 'Patient Volume vs Noise', path: '/patient-flow', hash: '#volume-noise', category: 'Patient Flow' },
-        { label: 'Peak Hours Detection Heatmap', path: '/patient-flow', hash: '#peak-hours', category: 'Patient Flow' },
-        { label: 'Admission vs Discharge Rates', path: '/patient-flow', hash: '#admission-discharge-flow', category: 'Patient Flow' },
+        { label: 'Patient Flow Heatmap', path: '/patient-flow', hash: '#flow-heatmap', category: 'Patient Flow' },
+        { label: 'Patient Transfer Flow', path: '/patient-flow', hash: '#transfer-flow', category: 'Patient Flow' },
+        { label: 'Admission vs. Discharge Flow', path: '/patient-flow', hash: '#admission-discharge-flow', category: 'Patient Flow' },
         { label: 'Department Load Status', path: '/patient-flow', hash: '#dept-load-status', category: 'Patient Flow' },
         { label: 'Staff Efficiency Index', path: '/patient-flow', hash: '#staff-efficiency', category: 'Patient Flow' },
-        { label: 'Flow Imbalance Tracking', path: '/patient-flow', hash: '#flow-imbalance', category: 'Patient Flow' },
-        { label: 'Workload Distribution Zoom', path: '/patient-flow', hash: '#workload-dist', category: 'Patient Flow' },
-        { label: 'Patient Journey Funnel', path: '/patient-flow', hash: '#journey-funnel', category: 'Patient Flow' },
-        { label: 'Bottleneck Detection', path: '/patient-flow', hash: '#bottleneck-detection', category: 'Patient Flow' },
-        
-        // Resource Utilization
-        { label: 'Bed Occupancy Gauge', path: '/resource-utilization', hash: '#occupancy-gauge', category: 'Resource Util' },
-        { label: '30-Day Occupancy Trend', path: '/resource-utilization', hash: '#occupancy-trend', category: 'Resource Util' },
-        { label: 'Bed Availability Breakdown', path: '/resource-utilization', hash: '#bed-availability', category: 'Resource Util' },
-        { label: 'Resource Comparison (Beds/Staff)', path: '/resource-utilization', hash: '#resource-comparison', category: 'Resource Util' },
-        { label: 'LOS Dept Analysis', path: '/resource-utilization', hash: '#los-dept', category: 'Resource Util' },
-        { label: 'LOS Disease Analysis', path: '/resource-utilization', hash: '#los-disease', category: 'Resource Util' },
-        { label: 'Peak Hour Flow Detection (Zoom)', path: '/resource-utilization', hash: '#flow-peak-zoom', category: 'Resource Util' },
         
         // Disease Trends
         { label: 'Disease Prevalence Donut', path: '/disease-trends', hash: '#disease-prevalence', category: 'Disease Trends' },
-        { label: 'Clinical Alerts Panel', path: '/disease-trends', hash: '#clinical-alerts', category: 'Disease Trends' },
-        { label: 'Temporal Disease Fluctuations', path: '/disease-trends', hash: '#disease-trends-temporal', category: 'Disease Trends' },
-        { label: 'Seasonal Outbreak Heatmap', path: '/disease-trends', hash: '#seasonal-outbreak', category: 'Disease Trends' },
-        { label: 'Age-Disease Demographic Dist', path: '/disease-trends', hash: '#age-disease-dist', category: 'Disease Trends' },
-        { label: 'Readmission Rate by Condition', path: '/disease-trends', hash: '#readmission-rate', category: 'Disease Trends' },
+        { label: 'Age-wise Disease Intensity', path: '/disease-trends', hash: '#age-disease-intensity', category: 'Disease Trends' },
+        { label: 'Disease Trend Trajectory', path: '/disease-trends', hash: '#disease-trends-temporal', category: 'Disease Trends' },
+        { label: 'Disease Progression Funnel', path: '/disease-trends', hash: '#progression-funnel', category: 'Disease Trends' },
+        { label: 'Dynamic Moving Average Trend', path: '/disease-trends', hash: '#moving-average-trend', category: 'Disease Trends' },
     ];
 
     const filteredResults = searchQuery.trim() === '' 
@@ -151,7 +131,13 @@ export default function Sidebar({ hospitalName, onLogout }) {
                 {/* Search Bar */}
                 <div className="sidebar-search-container">
                     <div className="sidebar-search">
-                        <span className="search-icon"><Search size={18} /></span>
+                        <span 
+                            className="search-icon" 
+                            onClick={() => filteredResults[0] && handleSearchSelect(filteredResults[0])}
+                            style={{ cursor: 'pointer' }}
+                        >
+                            <Search size={18} />
+                        </span>
                         <input 
                             type="text" 
                             placeholder="Search clinical graphs..." 
@@ -162,6 +148,11 @@ export default function Sidebar({ hospitalName, onLogout }) {
                                 setShowResults(true);
                             }}
                             onFocus={() => setShowResults(true)}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter' && filteredResults[0]) {
+                                    handleSearchSelect(filteredResults[0]);
+                                }
+                            }}
                         />
                     </div>
                     

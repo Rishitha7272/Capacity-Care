@@ -1,0 +1,43 @@
+{
+  "costVsPatients": [
+    { "department": "Cardiology",       "totalPatients": 1420, "avgCost": 18500, "totalCost": 26270000 },
+    { "department": "Neurology",        "totalPatients": 980,  "avgCost": 14200, "totalCost": 13916000 },
+    { "department": "Orthopedics",      "totalPatients": 1150, "avgCost": 12400, "totalCost": 14260000 },
+    { "department": "Oncology",         "totalPatients": 610,  "avgCost": 28900, "totalCost": 17629000 },
+    { "department": "Pediatrics",       "totalPatients": 1380, "avgCost": 8700,  "totalCost": 12006000 },
+    { "department": "Emergency",        "totalPatients": 1890, "avgCost": 9200,  "totalCost": 17388000 },
+    { "department": "Pulmonology",      "totalPatients": 730,  "avgCost": 13800, "totalCost": 10074000 },
+    { "department": "Gastroenterology", "totalPatients": 540,  "avgCost": 11300, "totalCost": 6102000  },
+    { "department": "Urology",          "totalPatients": 460,  "avgCost": 15600, "totalCost": 7176000  },
+    { "department": "Psychiatry",       "totalPatients": 390,  "avgCost": 6400,  "totalCost": 2496000  }
+  ],
+  "costVsTime": [
+    { "period": "Jan 2025", "month": "2025-01", "totalCost": 4120000, "avgCost": 11200, "patientCount": 368 },
+    { "period": "Feb 2025", "month": "2025-02", "totalCost": 3890000, "avgCost": 10600, "patientCount": 367 },
+    { "period": "Mar 2025", "month": "2025-03", "totalCost": 5640000, "avgCost": 14300, "patientCount": 395 },
+    { "period": "Apr 2025", "month": "2025-04", "totalCost": 4750000, "avgCost": 12100, "patientCount": 393 },
+    { "period": "May 2025", "month": "2025-05", "totalCost": 5100000, "avgCost": 13000, "patientCount": 392 },
+    { "period": "Jun 2025", "month": "2025-06", "totalCost": 6320000, "avgCost": 16200, "patientCount": 390 },
+    { "period": "Jul 2025", "month": "2025-07", "totalCost": 7890000, "avgCost": 19800, "patientCount": 398 },
+    { "period": "Aug 2025", "month": "2025-08", "totalCost": 6500000, "avgCost": 16400, "patientCount": 396 },
+    { "period": "Sep 2025", "month": "2025-09", "totalCost": 5230000, "avgCost": 13200, "patientCount": 396 },
+    { "period": "Oct 2025", "month": "2025-10", "totalCost": 4980000, "avgCost": 12500, "patientCount": 398 },
+    { "period": "Nov 2025", "month": "2025-11", "totalCost": 5750000, "avgCost": 14700, "patientCount": 391 },
+    { "period": "Dec 2025", "month": "2025-12", "totalCost": 8100000, "avgCost": 20800, "patientCount": 389 },
+    { "period": "Jan 2026", "month": "2026-01", "totalCost": 6420000, "avgCost": 16400, "patientCount": 391 },
+    { "period": "Feb 2026", "month": "2026-02", "totalCost": 5890000, "avgCost": 15100, "patientCount": 390 },
+    { "period": "Mar 2026", "month": "2026-03", "totalCost": 7230000, "avgCost": 18700, "patientCount": 387 }
+  ],
+  "profitVsCost": [
+    { "department": "Cardiology",       "revenue": 35000000, "cost": 26270000 },
+    { "department": "Neurology",        "revenue": 18000000, "cost": 13916000 },
+    { "department": "Orthopedics",      "revenue": 21000000, "cost": 14260000 },
+    { "department": "Oncology",         "revenue": 22000000, "cost": 17629000 },
+    { "department": "Pediatrics",       "revenue": 10000000, "cost": 12006000 },
+    { "department": "Emergency",        "revenue": 14000000, "cost": 17388000 },
+    { "department": "Pulmonology",      "revenue": 13000000, "cost": 10074000 },
+    { "department": "Gastroenterology", "revenue": 8500000,  "cost": 6102000  },
+    { "department": "Urology",          "revenue": 9500000,  "cost": 7176000  },
+    { "department": "Psychiatry",       "revenue": 3000000,  "cost": 2496000  }
+  ]
+}

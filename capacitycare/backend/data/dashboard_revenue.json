@@ -1,0 +1,29 @@
+{
+  "revenueByDepartment": [
+    { "department": "ICU", "revenue": 4500000, "percentage": 35, "fill": "#7a9e87" },
+    { "department": "Surgery", "revenue": 3800000, "percentage": 30, "fill": "#a4c9b0" },
+    { "department": "Emergency", "revenue": 1900000, "percentage": 15, "fill": "#8fb89f" },
+    { "department": "Pediatrics", "revenue": 1200000, "percentage": 10, "fill": "#f5d6b3" },
+    { "department": "Other", "revenue": 1200000, "percentage": 10, "fill": "#cbd5e1" }
+  ],
+  "loadBalance": [
+    { "department": "Emergency", "patients": 122, "beds": 56 },
+    { "department": "ICU", "patients": 263, "beds": 162 },
+    { "department": "Surgery", "patients": 146, "beds": 51 },
+    { "department": "Cardiology", "patients": 122, "beds": 193 },
+    { "department": "Neurology", "patients": 157, "beds": 151 },
+    { "department": "Pediatrics", "patients": 223, "beds": 112 }
+  ],
+  "revenueEfficiency": [
+    { "department": "ICU", "revenue": 4500000, "patients": 263 },
+    { "department": "Surgery", "revenue": 3800000, "patients": 146 },
+    { "department": "Emergency", "revenue": 1900000, "patients": 122 },
+    { "department": "Cardiology", "revenue": 3500000, "patients": 122 },
+    { "department": "Oncology", "revenue": 2200000, "patients": 61 }
+  ],
+  "keyAlerts": [
+    { "type": "high", "message": "Surgery Load Imbalance: 146 patients vs 51 beds", "icon": "⚠️" },
+    { "type": "medium", "message": "High Value Efficiency: Oncology revenue exceeds volume", "icon": "📈" },
+    { "type": "low", "message": "Cardiology Bed Surplus identified", "icon": "🛌" }
+  ]
+}

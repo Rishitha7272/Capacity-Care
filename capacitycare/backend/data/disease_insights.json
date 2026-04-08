@@ -1,0 +1,47 @@
+{
+  "ageDiseaseBubbles": [
+    { "ageGroup": "0-18 yrs", "disease": "Asthma/Respiratory", "cases": 350 },
+    { "ageGroup": "19-40 yrs", "disease": "Asthma/Respiratory", "cases": 120 },
+    { "ageGroup": "41-60 yrs", "disease": "Asthma/Respiratory", "cases": 180 },
+    { "ageGroup": "60+ yrs", "disease": "Asthma/Respiratory", "cases": 280 },
+    
+    { "ageGroup": "0-18 yrs", "disease": "Gastric/Entero", "cases": 220 },
+    { "ageGroup": "19-40 yrs", "disease": "Gastric/Entero", "cases": 290 },
+    { "ageGroup": "41-60 yrs", "disease": "Gastric/Entero", "cases": 150 },
+    { "ageGroup": "60+ yrs", "disease": "Gastric/Entero", "cases": 110 },
+
+    { "ageGroup": "41-60 yrs", "disease": "Cardiac Conditions", "cases": 150 },
+    { "ageGroup": "60+ yrs", "disease": "Cardiac Conditions", "cases": 450 }
+  ],
+  "diseaseTrendsTime": [
+    { "period": "2025-09", "viral": 120, "cardiac": 45 },
+    { "period": "2025-10", "viral": 150, "cardiac": 50 },
+    { "period": "2025-11", "viral": 180, "cardiac": 55 },
+    { "period": "2025-12", "viral": 260, "cardiac": 60 },
+    { "period": "2026-01", "viral": 310, "cardiac": 55 },
+    { "period": "2026-02", "viral": 280, "cardiac": 45 },
+    { "period": "2026-03", "viral": 240, "cardiac": 50 }
+  ],
+  "progressionFunnel": [
+    { "stage": "Diagnosed", "value": 1500, "fill": "#a4c9b0" },
+    { "stage": "Admitted", "value": 800, "fill": "#7ca58a" },
+    { "stage": "Critical", "value": 120, "fill": "#3f554a" },
+    { "stage": "Recovered", "value": 75, "fill": "#2d5a40" }
+  ],
+  "movingAverageTrend": [
+    { "date": "01", "Viral": 40, "Viral_MA": 40.0, "Cardiac": 15, "Cardiac_MA": 15.0 },
+    { "date": "02", "Viral": 80, "Viral_MA": 60.0, "Cardiac": 25, "Cardiac_MA": 20.0 },
+    { "date": "03", "Viral": 35, "Viral_MA": 51.6, "Cardiac": 10, "Cardiac_MA": 16.6 },
+    { "date": "04", "Viral": 90, "Viral_MA": 61.2, "Cardiac": 35, "Cardiac_MA": 21.2 },
+    { "date": "05", "Viral": 45, "Viral_MA": 58.0, "Cardiac": 12, "Cardiac_MA": 19.4 },
+    { "date": "06", "Viral": 110, "Viral_MA": 66.6, "Cardiac": 40, "Cardiac_MA": 22.8 },
+    { "date": "07", "Viral": 50, "Viral_MA": 64.2, "Cardiac": 15, "Cardiac_MA": 21.7 },
+    { "date": "08", "Viral": 130, "Viral_MA": 77.1, "Cardiac": 50, "Cardiac_MA": 26.7 },
+    { "date": "09", "Viral": 60, "Viral_MA": 74.2, "Cardiac": 18, "Cardiac_MA": 25.7 },
+    { "date": "10", "Viral": 150, "Viral_MA": 90.7, "Cardiac": 60, "Cardiac_MA": 32.8 },
+    { "date": "11", "Viral": 70, "Viral_MA": 87.8, "Cardiac": 22, "Cardiac_MA": 30.2 },
+    { "date": "12", "Viral": 160, "Viral_MA": 104.2, "Cardiac": 65, "Cardiac_MA": 38.5 },
+    { "date": "13", "Viral": 80, "Viral_MA": 100.0, "Cardiac": 25, "Cardiac_MA": 36.4 },
+    { "date": "14", "Viral": 180, "Viral_MA": 118.5, "Cardiac": 70, "Cardiac_MA": 44.2 }
+  ]
+}

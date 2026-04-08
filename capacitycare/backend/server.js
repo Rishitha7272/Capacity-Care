@@ -137,29 +137,64 @@ app.get('/api/analytics/disease-summary', (req, res) => {
 
 // ─── Patient Flow (Time Series) ──────────────────────────────────────────────
 app.get('/api/analytics/patient-flow', (req, res) => {
-    // In a real app, this would be computed from the massive dataset
-    // For now, we return a structured trend based on the massive records
     const patients = readData('patient_records.json') || [];
-    const last7Days = [...Array(7)].map((_, i) => {
-        const d = new Date();
-        d.setDate(d.getDate() - i);
-        return d.toISOString().split('T')[0];
-    }).reverse();
+    const { range = '7d' } = req.query;
+    
+    let labels = [];
+    let groupFn = (dateStr) => dateStr.split('T')[0]; // Default: YYYY-MM-DD
+    
+    if (range === '7d' || range === '1m') {
+        const days = range === '7d' ? 7 : 30;
+        labels = [...Array(days)].map((_, i) => {
+            const d = new Date();
+            d.setDate(d.getDate() - i);
+            return d.toISOString().split('T')[0];
+        }).reverse();
+    } else if (range === '6m' || range === '1y') {
+        const months = range === '6m' ? 6 : 12;
+        groupFn = (dateStr) => dateStr.substring(0, 7); // YYYY-MM
+        labels = [...Array(months)].map((_, i) => {
+            const d = new Date();
+            d.setMonth(d.getMonth() - i);
+            return d.toISOString().substring(0, 7);
+        }).reverse();
+    }
 
     const flowData = {
-        labels: last7Days,
+        labels,
         datasets: [
             { 
                 label: 'Admissions', 
-                data: last7Days.map(date => patients.filter(p => p.admissionDate.startsWith(date)).length) 
+                data: labels.map(label => patients.filter(p => p.admissionDate && groupFn(p.admissionDate) === label).length) 
             },
             { 
                 label: 'Discharges', 
-                data: last7Days.map(date => patients.filter(p => p.dischargeDate && p.dischargeDate.startsWith(date)).length) 
+                data: labels.map(label => patients.filter(p => p.dischargeDate && groupFn(p.dischargeDate) === label).length) 
             },
         ],
     };
     res.json(flowData);
+});
+
+// ─── Advanced Patient Flow (Heatmap & Sankey) ────────────────────────────────
+app.get('/api/analytics/patient-flow-advanced', (req, res) => {
+    const data = readData('patient_flow_advanced.json');
+    if (!data) return res.status(404).json({ error: 'Data not found' });
+    res.json(data);
+});
+
+// ─── Cost Insights (Scatter + Line Chart Data) ───────────────────────────────
+app.get('/api/analytics/cost-insights', (req, res) => {
+    const insights = readData('cost_insights.json');
+    if (!insights) return res.status(404).json({ error: 'Cost insights not found' });
+    res.json(insights);
+});
+
+// ─── Disease Insights (Bubble + Line + Funnel) ───────────────────────────────
+app.get('/api/analytics/disease-insights', (req, res) => {
+    const data = readData('disease_insights.json');
+    if (!data) return res.status(404).json({ error: 'Data not found' });
+    res.json(data);
 });
 
 // ─── Testimonials ────────────────────────────────────────────────────────────
@@ -178,6 +213,13 @@ app.post('/api/testimonials', (req, res) => {
     testimonials.unshift(newTestimonial);
     writeData('testimonials.json', testimonials);
     res.status(201).json(newTestimonial);
+});
+
+// ─── Dashboard Summary (Revenue + Alerts) ────────────────────────────────────
+app.get('/api/analytics/dashboard-summary', (req, res) => {
+    const data = readData('dashboard_revenue.json');
+    if (!data) return res.status(404).json({ error: 'Dashboard data not found' });
+    res.json(data);
 });
 
 app.listen(PORT, () => console.log(`🏥 CapacityCare Local API running on http://localhost:${PORT}`));
