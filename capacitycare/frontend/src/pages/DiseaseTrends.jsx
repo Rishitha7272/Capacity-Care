@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
     PieChart, Pie, Cell, ResponsiveContainer,
     Tooltip as RechartsTooltip, Legend, BarChart, Bar, 
+    CartesianGrid, XAxis, YAxis
 } from 'recharts';
 import { 
     Thermometer, TrendingUp, AlertCircle, 
@@ -148,3 +149,4 @@ export default function DiseaseTrends() {
         </div>
     );
 }
+
