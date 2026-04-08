@@ -1,0 +1,270 @@
+/* Settings.css - System Control Custom Styles */
+
+:root {
+    --color-settings-bg: #ffffff;
+    --color-settings-sidebar: #f8faf9;
+    --color-settings-border: #e2e8f0;
+    --color-settings-active: #a4c9b0;
+    --color-settings-text: #1e293b;
+    --color-settings-muted: #64748b;
+    --color-settings-accent: #5b8c8a;
+}
+
+.settings-root {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-family: 'Inter', sans-serif;
+    color: var(--color-settings-text);
+}
+
+.settings-header {
+    margin-bottom: 2rem;
+}
+
+.settings-title {
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin-bottom: 0.5rem;
+}
+
+.settings-subtitle {
+    color: var(--color-settings-muted);
+    font-size: 1.1rem;
+}
+
+/* Layout: Sidebar + Content Area */
+.settings-container {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    background: var(--color-settings-bg);
+    border: 1px solid var(--color-settings-border);
+    border-radius: 16px;
+    overflow: hidden;
+    min-height: 700px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+/* Sidebar Styling */
+.settings-tabs {
+    background: var(--color-settings-sidebar);
+    border-right: 1px solid var(--color-settings-border);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.settings-tab-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border: none;
+    background: transparent;
+    border-radius: 10px;
+    color: var(--color-settings-muted);
+    font-size: 14.5px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s ease;
+}
+
+.settings-tab-btn:hover {
+    background: rgba(164, 201, 176, 0.1);
+    color: var(--color-settings-accent);
+}
+
+.settings-tab-btn.active {
+    background: var(--color-settings-active);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(164, 201, 176, 0.3);
+}
+
+/* Content Area */
+.settings-content {
+    padding: 2.5rem;
+    overflow-y: auto;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.section-group {
+    background: #fbfbfc;
+    border: 1px solid var(--color-settings-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.group-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 1.25rem;
+    color: var(--color-settings-accent);
+}
+
+/* Form Elements */
+.setting-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--color-settings-border);
+}
+
+.setting-item:last-child {
+    border-bottom: none;
+}
+
+.setting-label {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.setting-label-text {
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.setting-sublabel {
+    font-size: 13px;
+    color: var(--color-settings-muted);
+}
+
+/* Toggles & Inputs */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 24px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #cbd5e1;
+    transition: .4s;
+    border-radius: 24px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px; width: 18px;
+    left: 3px; bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider { background-color: var(--color-settings-active); }
+input:checked + .slider:before { transform: translateX(24px); }
+
+.settings-input, .settings-select {
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--color-settings-border);
+    font-size: 14px;
+    color: var(--color-settings-text);
+    outline: none;
+    min-width: 180px;
+}
+
+.settings-input:focus { border-color: var(--color-settings-active); }
+
+/* Sliders */
+.range-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 250px;
+}
+
+.range-input {
+    flex: 1;
+    accent-color: var(--color-settings-active);
+}
+
+.range-value {
+    font-weight: 700;
+    color: var(--color-settings-accent);
+    min-width: 45px;
+}
+
+/* Button & Action */
+.settings-save-row {
+    position: sticky;
+    bottom: 0;
+    background: #ffffff;
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--color-settings-border);
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.btn-secondary {
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--color-settings-border);
+    background: #fff;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-primary {
+    padding: 10px 24px;
+    border-radius: 8px;
+    border: none;
+    background: var(--color-settings-active);
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(164, 201, 176, 0.4);
+}
+
+.btn-primary:active { transform: scale(0.98); }
+
+/* IoT Simulation Styles */
+.iot-scan-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: #f1f5f9;
+    border: 1px dashed var(--color-settings-active);
+    color: var(--color-settings-accent);
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.iot-scan-btn:hover { background: #eaf3ed; }
+
+@keyframes spin { 100% { transform: rotate(360deg); } }
+.scanning-icon { animation: spin 2s linear infinite; }
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .settings-container { grid-template-columns: 80px 1fr; }
+    .settings-tab-btn span { display: none; }
+    .settings-tab-btn { justify-content: center; padding: 16px; }
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "stage": "Registration",
+    "value": 25000,
+    "fill": "#e2e8f0"
+  },
+  {
+    "stage": "Consultation",
+    "value": 21000,
+    "fill": "#cbd5e1"
+  },
+  {
+    "stage": "Admission",
+    "value": 10000,
+    "fill": "#a4c9b0"
+  },
+  {
+    "stage": "Discharge",
+    "value": 8500,
+    "fill": "#7a9e87"
+  }
+]

@@ -1,0 +1,178 @@
+/* Resource Utilization Styling - Tranquil Earth Aesthetic */
+
+.resource-dashboard-root {
+    padding: 2rem 3rem;
+    background-color: #f6f9f8;
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    color: #1a221f;
+}
+
+.resource-header-row {
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.resource-header-titles {
+    display: flex;
+    flex-direction: column;
+}
+
+.resource-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+.resource-subtitle {
+    color: #64748b;
+    font-size: 1rem;
+    margin-top: 0.25rem;
+}
+
+/* KPI Top Grid */
+.resource-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.res-kpi-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+    border: 1px solid #f1f5f9;
+    display: flex;
+    flex-direction: column;
+}
+
+.res-kpi-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #94a3b8;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+}
+
+.res-kpi-value {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #1e293b;
+}
+
+.res-kpi-sub {
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-top: 0.5rem;
+}
+
+.res-kpi-sub.critical { color: #ef4444; }
+.res-kpi-sub.optimal { color: #10b981; }
+
+/* Chart Rows */
+.resource-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+}
+
+.res-chart-card {
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 1.5rem;
+    box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.04);
+    border: 1px solid #f1f5f9;
+    display: flex;
+    flex-direction: column;
+}
+
+.col-span-1 { grid-column: span 1; }
+.col-span-2 { grid-column: span 2; }
+.col-span-4 { grid-column: span 4; }
+
+.res-card-header {
+    margin-bottom: 1.5rem;
+}
+
+.res-card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+}
+
+.res-card-subtitle {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    margin-top: 0.25rem;
+}
+
+/* Insight Box */
+.res-insight-box {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: #f8fafc;
+    border-radius: 12px;
+    border-left: 4px solid #a4c9b0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.res-insight-box.alert {
+    border-left-color: #ef4444;
+    background: #fff5f5;
+}
+
+.res-insight-box strong {
+    color: #334155;
+    display: block;
+    margin-bottom: 4px;
+}
+
+/* Bed Availability Table Styling */
+.bed-table-container {
+    margin-top: 1rem;
+    overflow-x: auto;
+}
+
+.bed-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.bed-table th {
+    text-align: left;
+    padding: 0.75rem;
+    font-size: 0.8rem;
+    color: #64748b;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.bed-table td {
+    padding: 0.75rem;
+    font-size: 0.9rem;
+    color: #1e293b;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.status-indicator {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.status-indicator.full { background: #ef4444; }
+.status-indicator.open { background: #10b981; }
+
+@media (max-width: 1024px) {
+    .resource-kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    .resource-grid { grid-template-columns: 1fr; }
+    .col-span-2, .col-span-1 { grid-column: span 1; }
+}

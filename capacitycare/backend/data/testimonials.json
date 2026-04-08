@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Dr. Sarah Mitchell",
+    "role": "Chief Medical Officer",
+    "hospital": "Metro General Hospital",
+    "text": "CapacityCare transformed our ICU management. We reduced wait times by 40% and improved patient outcomes significantly within just 3 months.",
+    "avatar": "SM",
+    "rating": 5
+  },
+  {
+    "name": "James Thornton",
+    "role": "Hospital Administrator",
+    "hospital": "St. Lukes Healthcare Network",
+    "text": "The advanced descriptive data caught a staffing shortage before it happened. This platform pays for itself every single week.",
+    "avatar": "JT",
+    "rating": 5
+  },
+  {
+    "name": "Dr. Priya Sharma",
+    "role": "Data Analytics Lead",
+    "hospital": "Sunrise Medical Center",
+    "text": "The visualizations are stunning and the insights are actionable. Our clinical board now makes data-driven decisions with confidence.",
+    "avatar": "PS",
+    "rating": 5
+  }
+]

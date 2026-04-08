@@ -1,0 +1,148 @@
+/* Disease Trends Styling - Tranquil Earth Aesthetic */
+
+.disease-dashboard-root {
+    padding: 2rem 3rem;
+    background-color: #f6f9f8;
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    color: #1a221f;
+}
+
+.disease-header-row {
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.disease-header-titles {
+    display: flex;
+    flex-direction: column;
+}
+
+.disease-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+.disease-subtitle {
+    color: #64748b;
+    font-size: 1rem;
+    margin-top: 0.25rem;
+}
+
+/* Grid Layout */
+.disease-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+}
+
+.disease-chart-card {
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 1.5rem;
+    box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.04);
+    border: 1px solid #f1f5f9;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.disease-chart-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 45px -10px rgba(0, 0, 0, 0.08);
+}
+
+.col-span-1 { grid-column: span 1; }
+.col-span-2 { grid-column: span 2; }
+.col-span-3 { grid-column: span 3; }
+.col-span-4 { grid-column: span 4; }
+
+.disease-card-header {
+    margin-bottom: 1.5rem;
+}
+
+.disease-card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+}
+
+.disease-card-subtitle {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    margin-top: 0.25rem;
+}
+
+/* Insight Box */
+.disease-insight-box {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: #f8fafc;
+    border-radius: 12px;
+    border-left: 4px solid #a4c9b0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 500;
+}
+
+.disease-insight-box.alert {
+    border-left-color: #ef4444;
+    background: #fff5f5;
+}
+
+.disease-insight-box strong {
+    color: #334155;
+}
+
+/* List Items (Existing content integration) */
+.disease-list-container {
+    margin-top: 1rem;
+}
+
+.disease-item-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 0.9rem;
+}
+
+.disease-item-label {
+    font-weight: 600;
+    color: #334155;
+}
+
+.disease-item-value {
+    color: #64748b;
+    font-weight: 500;
+}
+
+/* Tooltip Customizations */
+.disease-tooltip {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    border-radius: 12px;
+    padding: 12px 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+@media (max-width: 1200px) {
+    .disease-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .disease-grid {
+        grid-template-columns: 1fr;
+    }
+}

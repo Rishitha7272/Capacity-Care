@@ -1,0 +1,132 @@
+.use-section {
+    background: var(--beige);
+}
+
+.use-grid {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.use-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.use-icon-wrap {
+    width: 72px;
+    height: 72px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.use-icon-sage {
+    background: rgba(122, 158, 135, 0.12);
+}
+
+.use-icon-teal {
+    background: rgba(91, 140, 138, 0.12);
+}
+
+.use-icon-clay {
+    background: rgba(196, 137, 106, 0.1);
+}
+
+.use-title {
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.use-subtitle {
+    color: var(--text-secondary);
+}
+
+.use-highlights {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    flex: 1;
+}
+
+.use-highlights li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.625rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.use-check {
+    flex-shrink: 0;
+    font-weight: 700;
+    font-size: 0.8rem;
+    margin-top: 1px;
+}
+
+.use-check-sage {
+    color: var(--sage-dark);
+}
+
+.use-check-teal {
+    color: var(--teal-muted);
+}
+
+.use-check-clay {
+    color: var(--clay-muted);
+}
+
+.use-metric {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-sm);
+    margin-top: auto;
+}
+
+.use-metric-sage {
+    background: rgba(122, 158, 135, 0.1);
+}
+
+.use-metric-teal {
+    background: rgba(91, 140, 138, 0.1);
+}
+
+.use-metric-clay {
+    background: rgba(196, 137, 106, 0.08);
+}
+
+.use-metric-val {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.use-metric-label {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Hover accent border */
+.use-card-sage:hover {
+    border-color: rgba(122, 158, 135, 0.4);
+}
+
+.use-card-teal:hover {
+    border-color: rgba(91, 140, 138, 0.4);
+}
+
+.use-card-clay:hover {
+    border-color: rgba(196, 137, 106, 0.3);
+}
+
+@media (max-width: 900px) {
+    .use-grid {
+        grid-template-columns: 1fr;
+    }
+}

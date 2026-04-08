@@ -1,0 +1,120 @@
+.how-section {
+    background: var(--off-white);
+    position: relative;
+}
+
+.steps-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    position: relative;
+    margin-bottom: 4rem;
+}
+
+.step-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+    position: relative;
+}
+
+/* Connector line between steps */
+.step-connector {
+    position: absolute;
+    top: 30px;
+    left: calc(50% + 36px);
+    width: calc(100% - 72px);
+    height: 2px;
+    background: linear-gradient(90deg, rgba(122, 158, 135, 0.4), rgba(91, 140, 138, 0.4));
+    z-index: 0;
+}
+
+.step-num-wrap {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+}
+
+.step-color-sage {
+    background: rgba(122, 158, 135, 0.15);
+    border: 2px solid rgba(122, 158, 135, 0.4);
+}
+
+.step-color-teal {
+    background: rgba(91, 140, 138, 0.15);
+    border: 2px solid rgba(91, 140, 138, 0.4);
+}
+
+.step-color-clay {
+    background: rgba(196, 137, 106, 0.12);
+    border: 2px solid rgba(196, 137, 106, 0.3);
+}
+
+.step-num {
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+}
+
+.step-icon-wrap {
+    width: 72px;
+    height: 72px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.step-icon-sage {
+    background: rgba(122, 158, 135, 0.1);
+}
+
+.step-icon-teal {
+    background: rgba(91, 140, 138, 0.1);
+}
+
+.step-icon-clay {
+    background: rgba(196, 137, 106, 0.08);
+}
+
+.step-title {
+    color: var(--text-primary);
+}
+
+.step-desc {
+    color: var(--text-secondary);
+    max-width: 220px;
+}
+
+.how-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 900px) {
+    .steps-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 3rem 2rem;
+    }
+
+    .step-connector {
+        display: none;
+    }
+}
+
+@media (max-width: 500px) {
+    .steps-container {
+        grid-template-columns: 1fr;
+    }
+}

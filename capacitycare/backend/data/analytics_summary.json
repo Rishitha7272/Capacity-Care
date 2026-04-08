@@ -1,0 +1,9 @@
+{
+  "totalPatients": 10000,
+  "icuOccupancy": 84.5,
+  "avgWaitTime": 12.4,
+  "satisfactionScore": 92.8,
+  "bedsAvailable": 333,
+  "staffOnDuty": 398,
+  "lastUpdated": "2026-04-08T17:54:48.635Z"
+}
