@@ -7,25 +7,27 @@ import {
 } from 'lucide-react';
 import './Profile.css';
 
-const Profile = () => {
-    // Mock user data based on request
-    const user = {
-        name: "Dr. Samantha Reed",
-        role: "Senior Clinical Analyst",
-        department: "Emergency Medicine",
-        email: "s.reed@capacitycare.org",
-        contact: "+91 98765 43210",
+const Profile = ({ user }) => {
+    // If no user prop (e.g. initial load), use fallback
+    if (!user) return <div className="loading-screen">Syncing Profile Data...</div>;
+
+    const displayUser = {
+        name: user.name,
+        role: user.role,
+        department: user.department,
+        email: user.email,
+        contact: user.contact || "Not Provided",
         stats: {
-            patientsWeek: 42,
-            patientsMonth: 158,
-            avgTreatmentTime: "14.5 min",
-            deptContribution: "22.4%",
-            lastLogin: "Today, 10:24 AM",
-            loginFrequency: "4.8 sessions/day",
-            pagesVisited: ["Dashboard", "Patient Flow", "Settings"],
-            avgPatientsDay: 12,
-            efficiencyScore: 94,
-            responseTime: "1.2 min"
+            patientsMonth: user.stats?.patientsMonth || 0,
+            avgTreatmentTime: `${user.stats?.avgTreatmentTime || 0} min`,
+            deptContribution: `${user.stats?.deptContribution || 0}%`,
+            lastLogin: user.stats?.lastLogin ? new Date(user.stats.lastLogin).toLocaleString() : "First Session",
+            efficiencyScore: user.stats?.efficiencyScore || 0,
+            avgPatientsDay: Math.round((user.stats?.patientsMonth || 0) / 22), // Estimate based on working days
+            responseTime: "1.2 min", // Field currently missing in JSON, using placeholder
+            loginFrequency: "Daily",
+            pagesVisited: ["Dashboard", "Patient Flow", "Profile"],
+            patientsWeek: Math.round((user.stats?.patientsMonth || 0) / 4) // Estimate
         }
     };
 
@@ -51,8 +53,8 @@ const Profile = () => {
                         <User size={48} color="var(--lp-primary)" />
                     </div>
                     <div className="profile-basic-info">
-                        <h1>{user.name}</h1>
-                        <p className="profile-subtitle">{user.role} • {user.department}</p>
+                        <h1>{displayUser.name}</h1>
+                        <p className="profile-subtitle">{displayUser.role} • {displayUser.department}</p>
                     </div>
                 </div>
                 <div className="profile-actions">
@@ -74,21 +76,21 @@ const Profile = () => {
                             <Mail className="info-icon" size={18} />
                             <div>
                                 <label>Email Address</label>
-                                <p>{user.email}</p>
+                                <p>{displayUser.email}</p>
                             </div>
                         </div>
                         <div className="info-item">
                             <Phone className="info-icon" size={18} />
                             <div>
                                 <label>Contact Number (Optional)</label>
-                                <p>{user.contact}</p>
+                                <p>{displayUser.contact}</p>
                             </div>
                         </div>
                         <div className="info-item">
                             <Building2 className="info-icon" size={18} />
                             <div>
                                 <label>Department</label>
-                                <p>{user.department}</p>
+                                <p>{displayUser.department}</p>
                             </div>
                         </div>
                     </div>
@@ -100,20 +102,20 @@ const Profile = () => {
                     <div className="stats-grid">
                         <div className="stat-card">
                             <Users size={24} className="stat-icon" />
-                            <div className="stat-value">{user.stats.patientsMonth}</div>
+                            <div className="stat-value">{displayUser.stats.patientsMonth}</div>
                             <div className="stat-label">Patients (Month)</div>
-                            <div className="stat-sublabel">{user.stats.patientsWeek} this week</div>
+                            <div className="stat-sublabel">{displayUser.stats.patientsWeek} this week</div>
                         </div>
                         <div className="stat-card">
                             <Timer size={24} className="stat-icon" />
-                            <div className="stat-value">{user.stats.avgTreatmentTime}</div>
+                            <div className="stat-value">{displayUser.stats.avgTreatmentTime}</div>
                             <div className="stat-label">Avg Treatment Time</div>
                         </div>
                         <div className="stat-card">
                             <TrendingUp size={24} className="stat-icon" />
-                            <div className="stat-value">{user.stats.deptContribution}</div>
+                            <div className="stat-value">{displayUser.stats.deptContribution}</div>
                             <div className="stat-label">Dept Contribution</div>
-                            <div className="stat-sublabel">Based on {user.stats.patientsMonth} patient files handled vs dept total.</div>
+                            <div className="stat-sublabel">Based on {displayUser.stats.patientsMonth} patient files handled vs dept total.</div>
                         </div>
                     </div>
                 </motion.section>
@@ -126,14 +128,14 @@ const Profile = () => {
                             <LogIn className="info-icon" size={18} />
                             <div>
                                 <label>Last Login</label>
-                                <p>{user.stats.lastLogin}</p>
+                                <p>{displayUser.stats.lastLogin}</p>
                             </div>
                         </div>
                         <div className="info-item">
                             <Calendar className="info-icon" size={18} />
                             <div>
                                 <label>Login Frequency</label>
-                                <p>{user.stats.loginFrequency}</p>
+                                <p>{displayUser.stats.loginFrequency}</p>
                             </div>
                         </div>
                         <div className="info-item">
@@ -141,7 +143,7 @@ const Profile = () => {
                             <div>
                                 <label>Pages Most Visited</label>
                                 <div className="tag-cloud">
-                                    {user.stats.pagesVisited.map(page => (
+                                    {displayUser.stats.pagesVisited.map(page => (
                                         <span key={page} className="page-tag">{page}</span>
                                     ))}
                                 </div>
@@ -156,18 +158,18 @@ const Profile = () => {
                     <div className="stats-grid">
                         <div className="stat-card">
                             <Star size={24} className="stat-icon-gold" />
-                            <div className="stat-value">{user.stats.efficiencyScore}/100</div>
+                            <div className="stat-value">{displayUser.stats.efficiencyScore}/100</div>
                             <div className="stat-label">Efficiency Score</div>
                             <div className="stat-sublabel">Calculated from response time & throughput.</div>
                         </div>
                         <div className="stat-card">
                             <Users size={24} className="stat-icon" />
-                            <div className="stat-value">{user.stats.avgPatientsDay}</div>
+                            <div className="stat-value">{displayUser.stats.avgPatientsDay}</div>
                             <div className="stat-label">Avg Patients/Day</div>
                         </div>
                         <div className="stat-card">
                             <Clock size={24} className="stat-icon" />
-                            <div className="stat-value">{user.stats.responseTime}</div>
+                            <div className="stat-value">{displayUser.stats.responseTime}</div>
                             <div className="stat-label">Response Time</div>
                         </div>
                     </div>

@@ -7,7 +7,7 @@ import {
 } from 'lucide-react'
 import './Sidebar.css'
 
-export default function Sidebar({ hospitalName, onLogout }) {
+export default function Sidebar({ user, onLogout }) {
     const location = useLocation()
     const navigate = useNavigate()
     const [isMobileOpen, setIsMobileOpen] = useState(false)
@@ -90,6 +90,8 @@ export default function Sidebar({ hospitalName, onLogout }) {
     const handleNavClick = () => {
         setIsMobileOpen(false)
     }
+
+    const initials = user?.name ? user.name.substring(0, 1).toUpperCase() : 'C';
 
     return (
         <>
@@ -208,7 +210,9 @@ export default function Sidebar({ hospitalName, onLogout }) {
                             <li key={item.path}>
                                 <Link
                                     to={item.path}
-                                    className="nav-link secondary"
+                                    className={`nav-link secondary ${
+                                        location.pathname === item.path ? 'active' : ''
+                                    }`}
                                     onClick={handleNavClick}
                                 >
                                     <span className="nav-icon">{item.icon}</span>
@@ -223,18 +227,25 @@ export default function Sidebar({ hospitalName, onLogout }) {
                 <div className="sidebar-footer">
                     <div className="user-profile">
                         <div className="user-avatar">
-                            <svg width="32" height="32" viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#a4c9b0" /><text x="50%" y="55%" textAnchor="middle" fontSize="16" fill="#fff" fontWeight="bold" dy=".3em">H</text></svg>
+                            <svg width="32" height="32" viewBox="0 0 40 40">
+                                <circle cx="20" cy="20" r="20" fill="#a4c9b0" />
+                                <text x="50%" y="55%" textAnchor="middle" fontSize="16" fill="#fff" fontWeight="bold" dy=".3em">
+                                    {initials}
+                                </text>
+                            </svg>
                         </div>
                         <div className="user-info">
-                            <div className="user-name">{hospitalName || 'Health Center'}</div>
-                            <div className="user-role">Administrator</div>
+                            <div className="user-name">{user?.name || 'Administrator'}</div>
+                            <div className="user-role">{user?.department || 'System Admin'}</div>
                         </div>
                         <button className="logout-icon-btn" onClick={handleLogout} title="Logout">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                                <polyline points="16 17 21 12 16 7"></polyline>
-                                <line x1="21" y1="12" x2="9" y2="12"></line>
-                            </svg>
+                            <button className="logout-icon-btn" onClick={handleLogout} title="Logout">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                    <polyline points="16 17 21 12 16 7"></polyline>
+                                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                                </svg>
+                            </button>
                         </button>
                     </div>
                 </div>

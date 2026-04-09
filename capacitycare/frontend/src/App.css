@@ -42,3 +42,38 @@ a {
         padding: 80px 20px 20px 20px;
     }
 }
+
+/* ─── Global Loader ────────────────────────────────────────────────────────── */
+.app-loading {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-bg-light);
+    gap: 20px;
+}
+
+.loader {
+    width: 48px;
+    height: 48px;
+    border: 3px solid var(--color-primary);
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.app-loading p {
+    color: var(--color-primary-dark);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+}

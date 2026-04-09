@@ -34,6 +34,75 @@
     font-size: 1.1rem;
 }
 
+.header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.unsaved-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #fff7ed;
+    color: #c2410c;
+    padding: 8px 16px;
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 700;
+    border: 1px solid #ffedd5;
+    box-shadow: 0 2px 4px rgba(194, 65, 12, 0.05);
+}
+
+.spinning {
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.discard-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #64748b;
+}
+
+.discard-btn:not(:disabled):hover {
+    color: #ef4444;
+    border-color: #fecaca;
+    background: #fff1f2;
+}
+
+.btn-primary {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-primary:disabled, .btn-secondary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #f1f5f9;
+    box-shadow: none;
+    transform: none !important;
+}
+
+.settings-input:focus {
+    border-color: var(--color-settings-active);
+    box-shadow: 0 0 0 3px rgba(164, 201, 176, 0.2);
+}
+
 /* Layout: Sidebar + Content Area */
 .settings-container {
     display: grid;
@@ -124,12 +193,6 @@
 
 .setting-item:last-child {
     border-bottom: none;
-}
-
-.setting-label {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
 }
 
 .setting-label-text {
@@ -243,28 +306,177 @@ input:checked + .slider:before { transform: translateX(24px); }
 
 .btn-primary:active { transform: scale(0.98); }
 
-/* IoT Simulation Styles */
-.iot-scan-btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 12px 20px;
-    background: #f1f5f9;
-    border: 1px dashed var(--color-settings-active);
-    color: var(--color-settings-accent);
-    border-radius: 12px;
-    font-weight: 700;
-    cursor: pointer;
-}
-
-.iot-scan-btn:hover { background: #eaf3ed; }
-
-@keyframes spin { 100% { transform: rotate(360deg); } }
-.scanning-icon { animation: spin 2s linear infinite; }
-
 /* Responsive */
 @media (max-width: 1024px) {
     .settings-container { grid-template-columns: 80px 1fr; }
     .settings-tab-btn span { display: none; }
     .settings-tab-btn { justify-content: center; padding: 16px; }
+}
+
+/* Security & Privacy Functional Styles */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+@media (max-width: 850px) {
+    .form-grid { grid-template-columns: 1fr; }
+}
+
+.input-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-field label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-settings-muted);
+}
+
+.input-field input {
+    padding: 12px;
+    border: 1px solid var(--color-settings-border);
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    transition: var(--transition-smooth);
+}
+
+.input-field input:focus {
+    border-color: var(--color-settings-active);
+    box-shadow: 0 0 0 3px rgba(164, 201, 176, 0.2);
+}
+
+.status-message {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.status-message.error {
+    background: #fff1f2;
+    color: #e11d48;
+    border: 1px solid #fecaca;
+}
+
+.status-message.success {
+    background: #f0fdf4;
+    color: #15803d;
+    border: 1px solid #bbf7d0;
+}
+
+.update-key-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: fit-content;
+}
+
+.group-header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+}
+
+.btn-icon {
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid var(--color-settings-border);
+    background: white;
+    cursor: pointer;
+    color: var(--color-settings-muted);
+    transition: all 0.2s;
+}
+
+.btn-icon:hover {
+    color: var(--color-settings-accent);
+    background: var(--color-settings-sidebar);
+}
+
+.audit-log-container {
+    background: white;
+    border: 1px solid var(--color-settings-border);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.audit-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+}
+
+.audit-table th {
+    background: #f8fafc;
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 700;
+    color: var(--color-settings-muted);
+    border-bottom: 1px solid var(--color-settings-border);
+}
+
+.audit-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--color-settings-border);
+    color: var(--color-settings-text);
+}
+
+.audit-table tr:last-child td {
+    border-bottom: none;
+}
+
+.status-pill {
+    padding: 4px 10px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.status-pill.success {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.status-pill.failed, .status-pill.critical {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.critical-zone {
+    border: 1px solid #fee2e2;
+    background: #fffafa;
+}
+
+.logout-danger-btn {
+    color: #ef4444 !important;
+    border-color: #fecaca !important;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logout-danger-btn:hover {
+    background: #ef4444 !important;
+    color: white !important;
+}
+
+.empty-logs {
+    padding: 3rem;
+    text-align: center;
+    color: var(--color-settings-muted);
+    font-style: italic;
+    font-size: 14px;
 }

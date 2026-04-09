@@ -2,53 +2,130 @@ import React, { useState, useEffect } from 'react';
 import { 
     Settings as SettingsIcon, Shield, Database, 
     PieChart, Sliders, Save, RefreshCw, 
-    Wifi, Key, FileText, LogOut
+    Wifi, Key, FileText, LogOut, XCircle, CheckCircle2
 } from 'lucide-react';
 import './Settings.css';
 
-export default function Settings() {
+const INITIAL_CONFIG = {
+    defaultLanding: 'Dashboard',
+    noiseThreshold: 75,
+    occupancyThreshold: 90,
+    patientLoadThreshold: 80,
+    refreshInterval: '10s',
+    emailAlerts: true,
+    inAppAlerts: true,
+    smsAlerts: false,
+    autoSaveFilters: true,
+    capacityER: 100,
+    capacityICU: 50,
+    efficiencyFormula: 'Cost / (Patients * LOS)'
+};
+
+export default function Settings({ user, onLogout }) {
     const [activeTab, setActiveTab] = useState('dashboard');
     const [isSaving, setIsSaving] = useState(false);
-    const [isScanning, setIsScanning] = useState(false);
-
-    // Simulated Settings State
-    const [config, setConfig] = useState({
-        defaultLanding: 'Dashboard',
-        theme: 'Light',
-        noiseThreshold: 75,
-        occupancyThreshold: 90,
-        patientLoadThreshold: 80,
-        refreshInterval: '10s',
-        emailAlerts: true,
-        inAppAlerts: true,
-        smsAlerts: false,
-        autoSaveFilters: true,
-        capacityER: 100,
-        capacityICU: 50,
-        efficiencyFormula: 'Cost / (Patients * LOS)'
+    const [logs, setLogs] = useState([]);
+    const [passForm, setPassForm] = useState({ current: '', new: '', confirm: '' });
+    const [passStatus, setPassStatus] = useState({ type: '', message: '' });
+    
+    // Persistent Saved State
+    const [savedConfig, setSavedConfig] = useState(() => {
+        const local = localStorage.getItem('capacitycare_config');
+        return local ? JSON.parse(local) : INITIAL_CONFIG;
     });
 
-    const handleSave = () => {
-        setIsSaving(true);
-        setTimeout(() => {
-            setIsSaving(false);
-            alert('System configuration updated successfully!');
-        }, 1200);
+    // Working Draft State
+    const [draftConfig, setDraftConfig] = useState(savedConfig);
+
+    // Track if there are unsaved changes
+    const hasChanges = JSON.stringify(savedConfig) !== JSON.stringify(draftConfig);
+
+    // Fetch logs when security tab is active
+    useEffect(() => {
+        if (activeTab === 'security') {
+            fetchLogs();
+        }
+    }, [activeTab]);
+
+    const fetchLogs = async () => {
+        try {
+            const response = await fetch('http://localhost:5001/api/audit/logs');
+            const data = await response.json();
+            setLogs(data);
+        } catch (err) {
+            console.error('Failed to fetch logs', err);
+        }
     };
 
-    const startScan = () => {
-        setIsScanning(true);
-        setTimeout(() => {
-            setIsScanning(false);
-            alert('Found 4 IoT Noise Sensors in Emergency and ICU wards.');
-        }, 3000);
+    const handleSave = async () => {
+        setIsSaving(true);
+        
+        try {
+            // Save settings
+            setSavedConfig(draftConfig);
+            localStorage.setItem('capacitycare_config', JSON.stringify(draftConfig));
+
+            // Log the event
+            await fetch('http://localhost:5001/api/audit/log-event', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email: user?.email || 'System',
+                    event: 'Configuration Update',
+                    status: 'success',
+                    details: 'System-wide thresholds and capacities updated.'
+                })
+            });
+
+            setTimeout(() => setIsSaving(false), 800);
+        } catch (err) {
+            console.error('Save failed', err);
+            setIsSaving(false);
+        }
+    };
+
+    const handlePasswordChange = async (e) => {
+        e.preventDefault();
+        if (passForm.new !== passForm.confirm) {
+            setPassStatus({ type: 'error', message: 'New passwords do not match' });
+            return;
+        }
+
+        try {
+            const token = localStorage.getItem('capacitycare_token');
+            const response = await fetch('http://localhost:5001/api/auth/change-password', {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    currentPassword: passForm.current,
+                    newPassword: passForm.new
+                })
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                setPassStatus({ type: 'success', message: 'Security Key updated successfully' });
+                setPassForm({ current: '', new: '', confirm: '' });
+            } else {
+                setPassStatus({ type: 'error', message: data.error || 'Failed to update key' });
+            }
+        } catch (err) {
+            setPassStatus({ type: 'error', message: 'Network error occurred' });
+        }
+    };
+
+    const handleDiscard = () => {
+        setDraftConfig(savedConfig);
     };
 
     const renderTabContent = () => {
         switch (activeTab) {
             case 'dashboard':
                 return (
-                    <div className="settings-section">
+                    <div className="settings-section animate-fade-in">
                         <h2 className="section-title"><PieChart size={24} /> Dashboard Preferences</h2>
                         <div className="section-group">
                             <h3 className="group-title">Interface Settings</h3>
@@ -59,53 +136,35 @@ export default function Settings() {
                                 </div>
                                 <select 
                                     className="settings-select"
-                                    value={config.defaultLanding}
-                                    onChange={(e) => setConfig({...config, defaultLanding: e.target.value})}
+                                    value={draftConfig.defaultLanding}
+                                    onChange={(e) => setDraftConfig({...draftConfig, defaultLanding: e.target.value})}
                                 >
                                     <option>Dashboard</option>
                                     <option>Cost Analysis</option>
                                     <option>Patient Flow</option>
                                 </select>
                             </div>
-                            <div className="setting-item">
-                                <div className="setting-label">
-                                    <span className="setting-label-text">System Theme</span>
-                                    <span className="setting-sublabel">Toggle between light and dark clinical themes.</span>
-                                </div>
-                                <div className="theme-toggle-group">
-                                    <button 
-                                        className={`btn-secondary ${config.theme === 'Light' ? 'active-theme' : ''}`}
-                                        style={{ background: config.theme === 'Light' ? '#a4c9b0' : '', color: config.theme === 'Light' ? '#fff' : '' }}
-                                        onClick={() => setConfig({...config, theme: 'Light'})}
-                                    >Light</button>
-                                    <button 
-                                        className={`btn-secondary ${config.theme === 'Dark' ? 'active-theme' : ''}`}
-                                        style={{ background: config.theme === 'Dark' ? '#5b8c8a' : '', color: config.theme === 'Dark' ? '#fff' : '' }}
-                                        onClick={() => setConfig({...config, theme: 'Dark'})}
-                                    >Dark</button>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 );
             case 'alerts':
                 return (
-                    <div className="settings-section">
-                        <h2 className="section-title"><Sliders size={24} /> Alert Thresholds (System Controls)</h2>
+                    <div className="settings-section animate-fade-in">
+                        <h2 className="section-title"><Sliders size={24} /> Alert Thresholds</h2>
                         <div className="section-group">
-                            <h3 className="group-title">Trigger Conditions</h3>
+                            <h3 className="group-title">Critical Trigger Conditions</h3>
                             <div className="setting-item">
                                 <div className="setting-label">
                                     <span className="setting-label-text">Noise Level Alert Threshold</span>
-                                    <span className="setting-sublabel">Alert when ambient noise exceeds this decibel level.</span>
+                                    <span className="setting-sublabel">Threshold for high-stress environmental alerts.</span>
                                 </div>
                                 <div className="range-container">
                                     <input 
                                         type="range" min="40" max="100" className="range-input" 
-                                        value={config.noiseThreshold} 
-                                        onChange={(e) => setConfig({...config, noiseThreshold: e.target.value})} 
+                                        value={draftConfig.noiseThreshold} 
+                                        onChange={(e) => setDraftConfig({...draftConfig, noiseThreshold: parseInt(e.target.value)})} 
                                     />
-                                    <span className="range-value">{config.noiseThreshold} dB</span>
+                                    <span className="range-value">{draftConfig.noiseThreshold} dB</span>
                                 </div>
                             </div>
                             <div className="setting-item">
@@ -116,24 +175,24 @@ export default function Settings() {
                                 <div className="range-container">
                                     <input 
                                         type="range" min="50" max="100" className="range-input" 
-                                        value={config.occupancyThreshold} 
-                                        onChange={(e) => setConfig({...config, occupancyThreshold: e.target.value})} 
+                                        value={draftConfig.occupancyThreshold} 
+                                        onChange={(e) => setDraftConfig({...draftConfig, occupancyThreshold: parseInt(e.target.value)})} 
                                     />
-                                    <span className="range-value">{config.occupancyThreshold}%</span>
+                                    <span className="range-value">{draftConfig.occupancyThreshold}%</span>
                                 </div>
                             </div>
                             <div className="setting-item">
                                 <div className="setting-label">
                                     <span className="setting-label-text">Patient Load Overload Index</span>
-                                    <span className="setting-sublabel">Threshold for triggering workload redistribution alerts.</span>
+                                    <span className="setting-sublabel">Threshold for workload redistribution alerts.</span>
                                 </div>
                                 <div className="range-container">
                                     <input 
                                         type="range" min="30" max="100" className="range-input" 
-                                        value={config.patientLoadThreshold} 
-                                        onChange={(e) => setConfig({...config, patientLoadThreshold: e.target.value})} 
+                                        value={draftConfig.patientLoadThreshold} 
+                                        onChange={(e) => setDraftConfig({...draftConfig, patientLoadThreshold: parseInt(e.target.value)})} 
                                     />
-                                    <span className="range-value">{config.patientLoadThreshold}</span>
+                                    <span className="range-value">{draftConfig.patientLoadThreshold}</span>
                                 </div>
                             </div>
                         </div>
@@ -141,19 +200,19 @@ export default function Settings() {
                 );
             case 'refresh':
                 return (
-                    <div className="settings-section">
-                        <h2 className="section-title"><RefreshCw size={24} /> Data Refresh & Filters</h2>
+                    <div className="settings-section animate-fade-in">
+                        <h2 className="section-title"><RefreshCw size={24} /> Data & Refresh</h2>
                         <div className="section-group">
-                            <h3 className="group-title">Autosave & Polling</h3>
+                            <h3 className="group-title">Telemetry Polling</h3>
                             <div className="setting-item">
                                 <div className="setting-label">
                                     <span className="setting-label-text">Auto-Refresh Interval</span>
-                                    <span className="setting-sublabel">Frequency of IoT telemetry updates (Noise/Occupancy).</span>
+                                    <span className="setting-sublabel">Frequency of IoT data stream updates.</span>
                                 </div>
                                 <select 
                                     className="settings-select"
-                                    value={config.refreshInterval}
-                                    onChange={(e) => setConfig({...config, refreshInterval: e.target.value})}
+                                    value={draftConfig.refreshInterval}
+                                    onChange={(e) => setDraftConfig({...draftConfig, refreshInterval: e.target.value})}
                                 >
                                     <option>5 sec</option>
                                     <option>10 sec</option>
@@ -164,12 +223,12 @@ export default function Settings() {
                             <div className="setting-item">
                                 <div className="setting-label">
                                     <span className="setting-label-text">Save Default Filters</span>
-                                    <span className="setting-sublabel">Retain Department/Disease filters across sessions.</span>
+                                    <span className="setting-sublabel">Retain clinical filters across app sessions.</span>
                                 </div>
                                 <label className="switch">
                                     <input 
-                                        type="checkbox" checked={config.autoSaveFilters} 
-                                        onChange={(e) => setConfig({...config, autoSaveFilters: e.target.checked})}
+                                        type="checkbox" checked={draftConfig.autoSaveFilters} 
+                                        onChange={(e) => setDraftConfig({...draftConfig, autoSaveFilters: e.target.checked})}
                                     />
                                     <span className="slider"></span>
                                 </label>
@@ -177,46 +236,117 @@ export default function Settings() {
                         </div>
                     </div>
                 );
-
             case 'security':
                 return (
-                    <div className="settings-section">
-                        <h2 className="section-title"><Shield size={24} /> Privacy & Security</h2>
+                    <div className="settings-section animate-fade-in">
+                        <h2 className="section-title"><Shield size={24} /> Privacy & Credentials</h2>
+                        
                         <div className="section-group">
-                            <h3 className="group-title">Access Control</h3>
-                            <div className="setting-item">
-                                <div className="setting-label">
-                                    <span className="setting-label-text">Change Administrator Password</span>
-                                    <span className="setting-sublabel">Secure your control center credentials.</span>
+                            <h3 className="group-title">Administrative Security Key</h3>
+                            <form className="password-change-form" onSubmit={handlePasswordChange}>
+                                <div className="form-grid">
+                                    <div className="input-field">
+                                        <label>Current Security Key</label>
+                                        <input 
+                                            type="password" 
+                                            placeholder="••••••••" 
+                                            value={passForm.current}
+                                            onChange={(e) => setPassForm({...passForm, current: e.target.value})}
+                                            required
+                                        />
+                                    </div>
+                                    <div className="input-field">
+                                        <label>New Security Key</label>
+                                        <input 
+                                            type="password" 
+                                            placeholder="••••••••" 
+                                            value={passForm.new}
+                                            onChange={(e) => setPassForm({...passForm, new: e.target.value})}
+                                            required
+                                        />
+                                    </div>
+                                    <div className="input-field">
+                                        <label>Confirm New Key</label>
+                                        <input 
+                                            type="password" 
+                                            placeholder="••••••••" 
+                                            value={passForm.confirm}
+                                            onChange={(e) => setPassForm({...passForm, confirm: e.target.value})}
+                                            required
+                                        />
+                                    </div>
                                 </div>
-                                <button className="btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                    <Key size={16} /> Reset Password
+
+                                {passStatus.message && (
+                                    <div className={`status-message ${passStatus.type}`}>
+                                        {passStatus.type === 'error' ? <XCircle size={16} /> : <CheckCircle2 size={16} />}
+                                        <span>{passStatus.message}</span>
+                                    </div>
+                                )}
+
+                                <button type="submit" className="btn-secondary update-key-btn">
+                                    <Key size={16} /> Update Security Protocol
                                 </button>
+                            </form>
+                        </div>
+
+                        <div className="section-group">
+                            <div className="group-header-flex">
+                                <h3 className="group-title">Institutional Audit Logs</h3>
+                                <button className="btn-icon" onClick={fetchLogs}><RefreshCw size={14} /></button>
                             </div>
-                            <div className="setting-item">
+                            <div className="audit-log-container">
+                                {logs.length === 0 ? (
+                                    <div className="empty-logs">No recent institutional activities recorded.</div>
+                                ) : (
+                                    <table className="audit-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Timestamp</th>
+                                                <th>Clinician</th>
+                                                <th>Event</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {logs.map(log => (
+                                                <tr key={log.id}>
+                                                    <td>{new Date(log.timestamp).toLocaleTimeString()}</td>
+                                                    <td>{log.email}</td>
+                                                    <td>{log.event}</td>
+                                                    <td>
+                                                        <span className={`status-pill ${log.status}`}>
+                                                            {log.status}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className="section-group critical-zone">
+                            <h3 className="group-title">Emergency Access Controls</h3>
+                            <div className="setting-item" style={{ border: 'none' }}>
                                 <div className="setting-label">
-                                    <span className="setting-label-text">System Access Logs</span>
-                                    <span className="setting-sublabel">Audit trail of configuration changes.</span>
+                                    <span className="setting-label-text">Global Session Termination</span>
+                                    <span className="setting-sublabel">Immediately invalidate all active tokens and force system logout.</span>
                                 </div>
-                                <button className="btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                    <FileText size={16} /> View Logs
-                                </button>
-                            </div>
-                            <div className="setting-item" style={{ border: 'none', marginTop: '1rem' }}>
-                                <button className="btn-secondary" style={{ color: '#ef4444', borderColor: '#fee2e2', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <button className="btn-secondary logout-danger-btn" onClick={onLogout}>
                                     <LogOut size={16} /> Forced Session Logout
                                 </button>
                             </div>
                         </div>
                     </div>
                 );
-
             case 'config':
                 return (
-                    <div className="settings-section">
-                        <h2 className="section-title"><Database size={24} /> System Configuration</h2>
+                    <div className="settings-section animate-fade-in">
+                        <h2 className="section-title"><Database size={24} /> System Config</h2>
                         <div className="section-group">
-                            <h3 className="group-title">Hospital Parameters</h3>
+                            <h3 className="group-title">Institutional Capacity Parameters</h3>
                             <div className="setting-item">
                                 <div className="setting-label">
                                     <span className="setting-label-text">Emergency Ward Capacity</span>
@@ -224,8 +354,8 @@ export default function Settings() {
                                 </div>
                                 <input 
                                     type="number" className="settings-input" 
-                                    value={config.capacityER} 
-                                    onChange={(e) => setConfig({...config, capacityER: e.target.value})} 
+                                    value={draftConfig.capacityER} 
+                                    onChange={(e) => setDraftConfig({...draftConfig, capacityER: parseInt(e.target.value) || 0})} 
                                 />
                             </div>
                             <div className="setting-item">
@@ -235,20 +365,20 @@ export default function Settings() {
                                 </div>
                                 <input 
                                     type="number" className="settings-input" 
-                                    value={config.capacityICU} 
-                                    onChange={(e) => setConfig({...config, capacityICU: e.target.value})} 
+                                    value={draftConfig.capacityICU} 
+                                    onChange={(e) => setDraftConfig({...draftConfig, capacityICU: parseInt(e.target.value) || 0})} 
                                 />
                             </div>
                             <div className="setting-item">
                                 <div className="setting-label">
                                     <span className="setting-label-text">Efficiency Computation Logic</span>
-                                    <span className="setting-sublabel">Formula used for 'Resource ROI' metrics.</span>
+                                    <span className="setting-sublabel">Formula used for system-wide ROI metrics.</span>
                                 </div>
                                 <input 
                                     type="text" className="settings-input" 
                                     style={{ width: '250px' }}
-                                    value={config.efficiencyFormula} 
-                                    onChange={(e) => setConfig({...config, efficiencyFormula: e.target.value})} 
+                                    value={draftConfig.efficiencyFormula} 
+                                    onChange={(e) => setDraftConfig({...draftConfig, efficiencyFormula: e.target.value})} 
                                 />
                             </div>
                         </div>
@@ -260,14 +390,23 @@ export default function Settings() {
     };
 
     return (
-        <div className="settings-root">
+        <div className="settings-root animate-fade-in">
             <header className="settings-header">
-                <h1 className="settings-title">System Control Center</h1>
-                <p className="settings-subtitle">Manage clinical thresholds, telemetry inputs, and platform behavior.</p>
+                <div className="header-flex">
+                    <div>
+                        <h1 className="settings-title">System Control Center</h1>
+                        <p className="settings-subtitle">Manage institutional thresholds and platform infrastructure.</p>
+                    </div>
+                    {hasChanges && (
+                        <div className="unsaved-badge animate-fade-in">
+                            <RefreshCw size={14} className="spinning" />
+                            <span>Unsaved Changes Detected</span>
+                        </div>
+                    )}
+                </div>
             </header>
 
             <div className="settings-container">
-                {/* Sidebar Tabs */}
                 <aside className="settings-tabs">
                     <button className={`settings-tab-btn ${activeTab === 'dashboard' ? 'active' : ''}`} onClick={() => setActiveTab('dashboard')}>
                         <PieChart size={18} /> <span>Dashboard</span>
@@ -286,15 +425,25 @@ export default function Settings() {
                     </button>
                 </aside>
 
-                {/* Main Content Area */}
                 <main className="settings-content">
                     {renderTabContent()}
 
                     <div className="settings-save-row">
-                        <button className="btn-secondary" onClick={() => window.location.reload()}>Discard Changes</button>
-                        <button className="btn-primary" onClick={handleSave} disabled={isSaving}>
+                        <button 
+                            className="btn-secondary discard-btn" 
+                            onClick={handleDiscard}
+                            disabled={!hasChanges || isSaving}
+                        >
+                            <XCircle size={18} />
+                            Discard Changes
+                        </button>
+                        <button 
+                            className="btn-primary" 
+                            onClick={handleSave} 
+                            disabled={!hasChanges || isSaving}
+                        >
                             <Save size={18} />
-                            {isSaving ? 'Applying Config...' : 'Save Configuration'}
+                            {isSaving ? 'Committing Changes...' : 'Save Configuration'}
                         </button>
                     </div>
                 </main>

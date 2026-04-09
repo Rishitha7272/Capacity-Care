@@ -98,7 +98,7 @@ const CustomTooltip = ({ active, payload, label }) => {
 
 /* ─── Main Component ─────────────────────────────────────────────── */
 
-export default function Dashboard() {
+export default function Dashboard({ user }) {
     const [stats, setStats] = useState(null);
     const [flowData, setFlowData] = useState(null);
     const [revenueData, setRevenueData] = useState(null);
@@ -173,14 +173,24 @@ export default function Dashboard() {
 
     const alerts = revenueData.keyAlerts || [];
 
+    // Doctor-specific overrides for KPIs
+    const isDoctor = user?.role === 'Doctor' || user?.role === 'doctor';
+    const patientsThisMonth = isDoctor ? user?.stats?.patientsMonth : stats.totalPatients;
+    const waitTime = isDoctor ? Number(user?.stats?.avgTreatmentTime) : stats.avgWaitTime;
+    const efficiency = isDoctor ? user?.stats?.efficiencyScore : stats.satisfactionScore;
+
     return (
         <div className="dashboard-root-v2">
             <div className="dashboard-container">
                 {/* Header Section */}
                 <div className="dashboard-header">
                     <div className="header-titles">
-                        <h1 className="header-h1">Command Hub</h1>
-                        <p className="header-p">Aggregated operational metrics from 10,000+ local records.</p>
+                        <h1 className="header-h1">Welcome back, {user?.name || 'Administrator'}</h1>
+                        <p className="header-p">
+                            {isDoctor 
+                                ? `Personal clinical insights for ${user?.department} department.`
+                                : "Aggregated operational metrics from 10,000+ local records."}
+                        </p>
                     </div>
 
                     <div className="header-search-container">
@@ -208,7 +218,7 @@ export default function Dashboard() {
 
                     <div className="header-status">
                         <ShieldCheck size={18} color="#7a9e87" />
-                        <span className="status-text">Data Verified</span>
+                        <span className="status-text">Clinical Data Verified</span>
                     </div>
                 </div>
 
@@ -227,10 +237,34 @@ export default function Dashboard() {
 
                 {/* KPI Row */}
                 <div className="kpi-grid">
-                    <StatCard label="Total Patients" value={stats.totalPatients} icon={<Users size={20}/>} unit="" color={SOFT_COLORS.primary} />
-                    <StatCard label="Wait Time" value={stats.avgWaitTime} unit="m" icon={<Clock size={20}/>} color={SOFT_COLORS.secondary} />
-                    <StatCard label="ICU Occupancy" value={stats.icuOccupancy} unit="%" progress={stats.icuOccupancy/100} color={SOFT_COLORS.accent} />
-                    <StatCard label="Live Satisfaction" value={stats.satisfactionScore} unit="%" progress={stats.satisfactionScore/100} color={SOFT_COLORS.success} />
+                    <StatCard 
+                        label={isDoctor ? "Personal Patients" : "Total Patients"} 
+                        value={patientsThisMonth} 
+                        icon={<Users size={20}/>} 
+                        unit="" 
+                        color={SOFT_COLORS.primary} 
+                    />
+                    <StatCard 
+                        label={isDoctor ? "Avg Treatment" : "Avg Wait Time"} 
+                        value={waitTime} 
+                        unit="m" 
+                        icon={<Clock size={20}/>} 
+                        color={SOFT_COLORS.secondary} 
+                    />
+                    <StatCard 
+                        label="ICU Occupancy" 
+                        value={stats.icuOccupancy} 
+                        unit="%" 
+                        progress={stats.icuOccupancy/100} 
+                        color={SOFT_COLORS.accent} 
+                    />
+                    <StatCard 
+                        label={isDoctor ? "Clinical Efficiency" : "Satisfaction Score"} 
+                        value={efficiency} 
+                        unit="%" 
+                        progress={efficiency/100} 
+                        color={SOFT_COLORS.success} 
+                    />
                 </div>
 
                 {/* Grid Row 1 */}

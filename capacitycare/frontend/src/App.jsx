@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import LoginPage from './components/LoginPage'
 import Sidebar from './components/Sidebar'
 import Dashboard from './pages/Dashboard'
@@ -14,16 +14,53 @@ import './App.css'
 
 export default function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false)
-    const [hospitalName, setHospitalName] = useState('')
+    const [user, setUser] = useState(null)
+    const [isLoading, setIsLoading] = useState(true)
 
-    const handleLogin = (hospital) => {
+    // Check for existing session on load
+    useEffect(() => {
+        const checkAuth = async () => {
+            const token = localStorage.getItem('capacitycare_token')
+            if (token) {
+                try {
+                    const response = await fetch('http://localhost:5001/api/auth/verify', {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    })
+                    const data = await response.json()
+                    if (response.ok) {
+                        setIsLoggedIn(true)
+                        setUser(data.user)
+                    } else {
+                        localStorage.removeItem('capacitycare_token')
+                    }
+                } catch (err) {
+                    console.error('Auth verification failed', err)
+                }
+            }
+            setIsLoading(false)
+        }
+        checkAuth()
+    }, [])
+
+    const handleLogin = (userData, token) => {
+        localStorage.setItem('capacitycare_token', token)
         setIsLoggedIn(true)
-        setHospitalName(hospital)
+        setUser(userData)
     }
 
     const handleLogout = () => {
+        localStorage.removeItem('capacitycare_token')
         setIsLoggedIn(false)
-        setHospitalName('')
+        setUser(null)
+    }
+
+    if (isLoading) {
+        return (
+            <div className="app-loading">
+                <div className="loader"></div>
+                <p>Establishing Secure Connection...</p>
+            </div>
+        )
     }
 
     return (
@@ -45,11 +82,11 @@ export default function App() {
                         isLoggedIn ? (
                             <div className="app-layout">
                                 <Sidebar
-                                    hospitalName={hospitalName}
+                                    user={user}
                                     onLogout={handleLogout}
                                 />
                                 <main className="app-main">
-                                    <Dashboard />
+                                    <Dashboard user={user} />
                                 </main>
                             </div>
                         ) : (
@@ -63,11 +100,11 @@ export default function App() {
                         isLoggedIn ? (
                             <div className="app-layout">
                                 <Sidebar
-                                    hospitalName={hospitalName}
+                                    user={user}
                                     onLogout={handleLogout}
                                 />
                                 <main className="app-main">
-                                    <CostAnalysis />
+                                    <CostAnalysis user={user} />
                                 </main>
                             </div>
                         ) : (
@@ -81,11 +118,11 @@ export default function App() {
                         isLoggedIn ? (
                             <div className="app-layout">
                                 <Sidebar
-                                    hospitalName={hospitalName}
+                                    user={user}
                                     onLogout={handleLogout}
                                 />
                                 <main className="app-main">
-                                    <PatientFlow />
+                                    <PatientFlow user={user} />
                                 </main>
                             </div>
                         ) : (
@@ -99,11 +136,11 @@ export default function App() {
                         isLoggedIn ? (
                             <div className="app-layout">
                                 <Sidebar
-                                    hospitalName={hospitalName}
+                                    user={user}
                                     onLogout={handleLogout}
                                 />
                                 <main className="app-main">
-                                    <ResourceUtilization />
+                                    <ResourceUtilization user={user} />
                                 </main>
                             </div>
                         ) : (
@@ -117,11 +154,11 @@ export default function App() {
                         isLoggedIn ? (
                             <div className="app-layout">
                                 <Sidebar
-                                    hospitalName={hospitalName}
+                                    user={user}
                                     onLogout={handleLogout}
                                 />
                                 <main className="app-main">
-                                    <DiseaseTrends />
+                                    <DiseaseTrends user={user} />
                                 </main>
                             </div>
                         ) : (
@@ -135,11 +172,11 @@ export default function App() {
                         isLoggedIn ? (
                             <div className="app-layout">
                                 <Sidebar
-                                    hospitalName={hospitalName}
+                                    user={user}
                                     onLogout={handleLogout}
                                 />
                                 <main className="app-main">
-                                    <Settings />
+                                    <Settings user={user} onLogout={handleLogout} />
                                 </main>
                             </div>
                         ) : (
@@ -153,11 +190,11 @@ export default function App() {
                         isLoggedIn ? (
                             <div className="app-layout">
                                 <Sidebar
-                                    hospitalName={hospitalName}
+                                    user={user}
                                     onLogout={handleLogout}
                                 />
                                 <main className="app-main">
-                                    <Profile />
+                                    <Profile user={user} />
                                 </main>
                             </div>
                         ) : (
