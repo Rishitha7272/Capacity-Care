@@ -1,0 +1,14 @@
+# Dependencies
+**/node_modules/
+__MACOSX/
+
+# Build outputs
+**/dist/
+**/build/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
